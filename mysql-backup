@@ -1,0 +1,18 @@
+#/bin/sh
+
+
+if [ $# -lt 2 ] ; then
+	echo "usage: sh mysqlmaster_sql.sh username password"
+	exit 1
+fi
+
+mysql_User=$1
+mysql_Password=$2
+
+/usr/bin/mysql --user=${mysql_User} --password=${mysql_Password} -e "
+FLUSH TABLES WITH READ LOCK;
+"
+/usr/bin/mysqldump --user=${mysql_User} --password=${mysql_Password} --opt --single-transaction --quote-names --flush-logs --master-data --all-databases > /tmp/mysql_master_dump.sql
+
+/usr/bin/mysql --user=${mysql_User} --password=${mysql_Password} -e "UNLOCK TABLES;"
+

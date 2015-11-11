@@ -1,0 +1,14 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import urllib
+
+def main(filename):
+    for line in open(filename, 'r'):
+        line = line.rstrip()
+        print urllib.unquote(line) 
+
+if __name__=="__main__":
+    import sys
+    main(sys.argv[1])
+

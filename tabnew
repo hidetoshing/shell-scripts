@@ -1,0 +1,61 @@
+#!/bin/sh
+
+# screen tool. (tmux|screen)
+tool=tmux
+
+function tabnew {
+	`tmux new-window -n ${1} "${2}"`
+	exit 0
+}
+
+function usage {
+	cat << EOF
+
+$(basename ${0}) is a tool for open new ${tool} tab 
+
+Usage:
+	$(basename ${0}) [command] [<options>]
+
+Options:
+	--version, -v	show version information
+	--help, -h	show this message.
+
+EOF
+}
+
+function version {
+	echo "$(basename ${0}) version 0.0.1"
+}
+
+# options loop
+if [ $# -gt 0 ]; then
+	while [ $# -gt 0 ];
+	do
+		case ${1} in
+			--help|-h)
+				usage
+				;;
+			--version|-v)
+				version
+				;;
+			ssh|-h)
+				tabnew ${2} "ssh ${2}"
+                exit;
+				;;
+			command|-c)
+                shift
+                NAME=${1}
+                shift
+				tabnew ${NAME} "${@}"
+                exit
+				;;
+			*)
+				tabnew ${@}
+                exit
+				;;
+		esac
+		shift
+	done
+else
+	tabnew "local"
+fi

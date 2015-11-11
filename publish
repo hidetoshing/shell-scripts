@@ -1,0 +1,62 @@
+#!/bin/sh
+
+function usage {
+	cat << EOF
+
+$(basename ${0}) is a tool for deploy dotfiles to servers
+
+Usage:
+	$(basename ${0}) [hostname] [<options>]
+
+Options:
+	--version, -v	show version information
+	--help, -h	show this message.
+
+EOF
+}
+
+function version {
+	echo "$(basename ${0}) version 0.0.1"
+}
+
+# options loop
+if [ $# -gt 0 ]; then
+	while [ $# -gt 0 ];
+	do
+		case ${1} in
+			--help|-h)
+				usage
+				;;
+			--version|-v)
+				version
+				;;
+			*)
+                if [ $# -gt 0 ]; then
+                    SSH_HOST_NAME=${1}
+                    echo "rsync -av $HOME/dotfiles --exclude '.git' $SSH_HOST_NAME:~"
+                    rsync -av --delete --dry-run --exclude '.git' $HOME/dotfiles $SSH_HOST_NAME:~
+                    echo "do you want continue? (y/n)"
+                    read response 
+                    case ${response} in
+                        "yes" | "y")
+                            rsync -av --delete --exclude '.git' $HOME/dotfiles $SSH_HOST_NAME:~
+                            exit 0
+                            ;;
+                        *)
+                            echo "canceled"
+                            exit 0
+                            ;;
+                    esac
+                else
+                    echo 'hostname not found.'
+                    usage
+                fi
+				exit 1
+				;;
+		esac
+		shift
+	done
+else
+	default
+    usage
+fi

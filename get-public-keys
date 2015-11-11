@@ -1,0 +1,4 @@
+#!/bin/sh
+
+USER=${1:-$USER}
+curl -s https://github.com/${USER}.keys

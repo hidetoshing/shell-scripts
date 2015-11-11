@@ -1,0 +1,79 @@
+#!/bin/sh
+
+# if color message, uncomment following.
+#
+source ~/dotfiles/lib/lib/color.sh
+#
+
+filetype="*.php"
+
+function regrep {
+	echo "${fgb_blue}ReGrep${fg_default}"
+	echo "${1} => ${2}"
+	echo "find for ${filetype}"
+	echo "${fgb_blue}Target files${fg_default}"
+	find . -name ${filetype} | grep -rl ${1} * 
+
+	echo "\n"
+	echo "${fg_green}Replace text? (y/n)${fg_default}"
+	read response 
+	case ${response} in
+		"yes" | "y")
+			find . -name "${filetype}" | grep -rl ${1} * | xargs sed -i -e "s#${1}#${2}#g"
+			exit 0
+			;;
+		*)
+			echo "${fg_yellow}Canceled replace${fg_default}"
+			exit 0
+			;;
+	esac
+}
+
+function usage {
+	cat << EOF
+
+$(basename ${0}) is a tool for Replace Grep 
+
+Usage:
+	$(basename ${0}) [<options>] src dist
+
+Options:
+	--type, -t	file type
+	--version, -v	show version information
+	--help, -h	show this message.
+
+EOF
+}
+
+function version {
+	echo "$(basename ${0}) version 0.0.1"
+}
+
+# options loop
+if [ $# -gt 0 ]; then
+	while [ $# -gt 0 ];
+	do
+		case ${1} in
+			--help|-h)
+				usage
+				exit 0
+				;;
+			--version|-v)
+				version
+				exit 0
+				;;
+			--type|-t)
+				filetype=${2}
+				shift
+				;;
+			*)
+				regrep ${1} ${2}
+				exit 0
+				;;
+		esac
+		shift
+	done
+else
+	usage
+	exit 0
+fi

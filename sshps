@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+
+HOST=${1}
+PS_PASS=`lpass show ActiveDirectory --password`
+USERNAME=`lpass show ldap.sjdc.voyage --user`
+HOST_PASS=`lpass show ldap.sjdc.voyage --password`
+
+expect -c "
+spawn cocot -t UTF-8 -p EUC-JP -- ssh ${USERNAME}@psgw.sn.sjdc.voyage
+expect -re \"psgw.sn.sjdc.voyage's password:\"; send \"$ps_pass\n\"
+expect -re \"CONNECT ->\"; send \"$host\n\"
+expect -re \"Username:\"; send \"$username\n\"
+expect -re \"password:\"; send \"$host_pass\n\"
+"

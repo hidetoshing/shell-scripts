@@ -1,0 +1,27 @@
+#!/bin/sh
+
+function usage {
+	cat << EOF
+
+$(basename ${0}) is a tool for ...
+
+Usage:
+	$(basename ${0}) [<options>]
+
+Options:
+	--version, -v	show version information
+	--help, -h	show this message.
+
+EOF
+}
+
+function version {
+	echo "$(basename ${0}) version 0.0.1"
+}
+
+w
+echo "　　　　_, ._"
+echo "　　（　・ω・）んも～"
+echo "　　○=｛=｝〇,"
+echo "　 　|:::::::::＼, ', ´"
+echo "､､､､し ､､､((（.＠）ｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗ\n"
