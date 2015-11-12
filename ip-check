@@ -1,0 +1,12 @@
+#! /usr/bin/env bash
+
+echo " - local ip address"
+if type -a ip >/dev/null 2>&1; then
+    ip -f inet addr | grep "inet" | cut -c10-
+elif type -a ipconfig >/dev/null 2>&1; then
+    ifconfig | grep "inet " | cut -c7-
+fi
+
+echo " - global ip address"
+curl http://checkip.amazonaws.com/
+
