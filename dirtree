@@ -1,3 +1,5 @@
 #!/bin/sh
 
-ls -R | grep ":" | sed -e 's/://' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'
+target=${1:-.}
+
+ls -R ${target} | grep ":" | sed -e 's/://' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'
