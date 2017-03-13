@@ -1,4 +1,4 @@
-DEST            := $(HOME)/local/bin
+DEST            := $(HOME)/bin
 TARGET_EXCLUDES := README.md LICENSE Makefile
 TARGET_FILES    := $(filter-out $(TARGET_EXCLUDES), $(wildcard *))
 
