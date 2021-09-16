@@ -1,0 +1,4 @@
+#!/bin/sh
+
+TARGET=${1:-'.'}
+find $TARGET -name '*.pyc' -type f -ls -delete
